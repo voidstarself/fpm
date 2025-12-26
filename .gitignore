@@ -1,1 +1,6 @@
-/target
+*
+!Cargo.toml
+!src/
+!src/**
+!.gitignore
+!.git
