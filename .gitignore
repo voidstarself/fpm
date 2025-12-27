@@ -4,3 +4,5 @@
 !src/**
 !.gitignore
 !.git
+!docs/
+!docs/**

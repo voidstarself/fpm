@@ -1,0 +1,206 @@
+#+TITLE: Fabric Package Manager — Implementation Plan
+#+TODO: TODO IN-PROGRESS | DONE
+
+This document tracks the implementation progress of the Fabric Package Manager MVP.
+
+* Version 0.1.0 — Project Foundation
+
+*Goal*: Basic project structure and configuration parsing
+
+** Tasks
+- [X] Set up Rust project with Cargo.toml
+- [X] Define project dependencies (clap, serde, toml, reqwest)
+- [ ] Create basic CLI argument parser with clap
+- [ ] Define ~fabric.toml~ schema structs
+- [ ] Implement TOML parsing/serialization
+- [ ] Define ~fabric.lock~ schema structs
+- [ ] Implement basic error types and handling
+- [ ] Add project README
+
+* Version 0.2.0 — ~fabric init~ Command
+
+*Goal*: Initialize new Fabric project configurations
+
+** Tasks
+- [ ] Implement ~fabric init~ command
+- [ ] Prompt user for Minecraft version
+- [ ] Create default ~fabric.toml~ with user input
+- [ ] Validate Minecraft version format
+- [ ] Handle existing ~fabric.toml~ (warn/abort)
+- [ ] Create ~.gitignore~ for ~mods/~ and ~fabric.lock~
+- [ ] Add tests for init command
+
+* Version 0.3.0 — Modrinth API Integration
+
+*Goal*: Connect to Modrinth API and fetch project data
+
+** Tasks
+- [ ] Implement Modrinth API client module
+- [ ] Define API response structs (Project, Version, Dependency)
+- [ ] Implement project search endpoint
+- [ ] Implement version listing endpoint
+- [ ] Implement version file download endpoint
+- [ ] Add rate limiting/retry logic
+- [ ] Handle API errors gracefully
+- [ ] Add API integration tests
+- [ ] Cache API responses (optional optimization)
+
+* Version 0.4.0 — ~fabric search~ Command
+
+*Goal*: Search for Fabric mods on Modrinth
+
+** Tasks
+- [ ] Implement ~fabric search <query>~ command
+- [ ] Load Minecraft version from ~fabric.toml~
+- [ ] Filter results by Fabric loader compatibility
+- [ ] Filter results by Minecraft version
+- [ ] Format output (name, slug, description)
+- [ ] Handle no results case
+- [ ] Add pagination support (if needed)
+- [ ] Add tests for search command
+
+* Version 0.5.0 — Version Resolution System
+
+*Goal*: Implement semantic versioning and dependency resolution
+
+** Tasks
+- [ ] Implement semver parsing and matching
+- [ ] Support version specifiers (~latest~, ~^~, ~~~, exact)
+- [ ] Implement basic dependency resolver
+- [ ] Build dependency graph from mod requirements
+- [ ] Detect circular dependencies
+- [ ] Detect version conflicts
+- [ ] Select optimal compatible versions
+- [ ] Add comprehensive resolver tests
+
+* Version 0.6.0 — ~fabric resolve~ Command
+
+*Goal*: Preview dependency resolution without installing
+
+** Tasks
+- [ ] Implement ~fabric resolve~ command
+- [ ] Load mods from ~fabric.toml~
+- [ ] Run dependency resolution
+- [ ] Display selected versions in tree format
+- [ ] Show dependency relationships
+- [ ] Report conflicts with clear messages
+- [ ] Add option for JSON output
+- [ ] Add tests for resolve command
+
+* Version 0.7.0 — Download and Installation
+
+*Goal*: Download mod JARs and manage mods directory
+
+** Tasks
+- [ ] Implement file download with progress indication
+- [ ] Verify file hashes (SHA-512/SHA-1)
+- [ ] Create ~mods/~ directory if not exists
+- [ ] Handle concurrent downloads safely
+- [ ] Implement atomic file operations
+- [ ] Add resume capability for interrupted downloads
+- [ ] Handle disk space errors
+- [ ] Add download tests
+
+* Version 0.8.0 — ~fabric add~ Command
+
+*Goal*: Add mods with full dependency resolution and installation
+
+** Tasks
+- [ ] Implement ~fabric add <mod>[@version]~ command
+- [ ] Parse mod identifier and version specifier
+- [ ] Search Modrinth for mod by slug/ID
+- [ ] Resolve dependencies automatically
+- [ ] Update ~fabric.toml~ with new mod
+- [ ] Generate/update ~fabric.lock~
+- [ ] Download all resolved JARs to ~mods/~
+- [ ] Handle add conflicts (already exists)
+- [ ] Add comprehensive tests
+
+* Version 0.9.0 — ~fabric remove~ Command
+
+*Goal*: Remove mods and clean up unused dependencies
+
+** Tasks
+- [ ] Implement ~fabric remove <mod>~ command
+- [ ] Remove mod from ~fabric.toml~
+- [ ] Re-resolve dependency graph
+- [ ] Identify orphaned dependencies
+- [ ] Update ~fabric.lock~
+- [ ] Delete unused JARs from ~mods/~
+- [ ] Prompt before removing dependencies (optional)
+- [ ] Add tests for remove command
+
+* Version 0.10.0 — ~fabric list~ Command
+
+*Goal*: Display currently installed mods
+
+** Tasks
+- [ ] Implement ~fabric list~ command
+- [ ] Read from ~fabric.lock~
+- [ ] Display mod name, version, and type (direct/dependency)
+- [ ] Format output in clean table
+- [ ] Add option for detailed output (dependencies)
+- [ ] Add option for JSON output
+- [ ] Handle missing ~fabric.lock~ gracefully
+- [ ] Add tests for list command
+
+* Version 1.0.0 — MVP Release
+
+*Goal*: Stable, tested, documented release
+
+** Pre-Release Tasks
+- [ ] Comprehensive integration testing
+- [ ] Test on Linux, macOS, and Windows
+- [ ] Performance optimization
+- [ ] Error message review and improvement
+- [ ] Complete user documentation
+- [ ] Add usage examples to README
+- [ ] Create CHANGELOG.org
+- [ ] Set up CI/CD pipeline
+- [ ] Create release binaries for all platforms
+- [ ] Tag v1.0.0 release
+
+** Documentation
+- [ ] Write installation instructions
+- [ ] Document all commands with examples
+- [ ] Explain ~fabric.toml~ format
+- [ ] Explain ~fabric.lock~ format
+- [ ] Add troubleshooting guide
+- [ ] Create contribution guidelines
+
+* Post-MVP Enhancements (Future Versions)
+
+** Version 1.1.0 — User Experience Improvements
+- [ ] Add ~fabric update <mod>~ command
+- [ ] Add ~fabric update --all~ command
+- [ ] Colored terminal output
+- [ ] Better progress indicators
+- [ ] Interactive prompts for conflicts
+
+** Version 1.2.0 — Advanced Features
+- [ ] Support for optional dependencies
+- [ ] Support for mod recommendations
+- [ ] Parallel downloads with concurrency control
+- [ ] Offline mode (use cached data)
+- [ ] ~fabric check~ command (verify integrity)
+
+** Version 1.3.0 — Configuration Enhancements
+- [ ] Support for multiple profiles
+- [ ] Environment variables for configuration
+- [ ] Custom mods directory path
+- [ ] Support for private Modrinth instances
+
+** Version 2.0.0 — Beyond MVP
+- [ ] CurseForge API integration
+- [ ] Modpack import/export
+- [ ] Launcher integration plugins
+- [ ] TUI interface
+- [ ] Server/client profile separation
+
+* Notes
+
+- Each version should be tagged in git with semantic versioning
+- Update ~Cargo.toml~ version after completing each milestone
+- Run full test suite before bumping version
+- Keep ~CHANGELOG.org~ updated with each release
+- Breaking changes require major version bump
