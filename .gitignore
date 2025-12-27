@@ -1,8 +1,7 @@
 *
+!README.md
 !Cargo.toml
 !src/
 !src/**
 !.gitignore
 !.git
-!docs/
-!docs/**
