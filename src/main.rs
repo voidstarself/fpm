@@ -1,22 +1,39 @@
 use clap::Parser;
 
-/// Simple program to greet a person
-#[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
-struct Args {
-    /// Name of the person to greet
-    #[arg(short, long)]
-    name: String,
+mod cli;
+use cli::{Cli, Command};
 
-    /// Number of times to greet
-    #[arg(short, long, default_value_t = 1)]
-    count: u8,
-}
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let cli = Cli::parse();
 
-fn main() {
-    let args = Args::parse();
+    match cli.command {
+        Command::Init { minecraft } => {
+            todo!("init command not implemented yet (minecraft = {})", minecraft);
+        }
 
-    for _ in 0..args.count {
-        println!("Hello {}!", args.name);
+        Command::Search { query } => {
+            todo!("search command not implemented yet (query = {})", query);
+        }
+
+        Command::Add { mod_name, version } => {
+            todo!(
+                "add command not implemented yet (mod = {}, version = {:?})",
+                mod_name,
+                version
+            );
+        }
+
+        Command::Remove { mod_name } => {
+            todo!("remove command not implemented yet (mod = {})", mod_name);
+        }
+
+        Command::List => {
+            todo!("list command not implemented yet");
+        }
+
+        Command::Resolve => {
+            todo!("resolve command not implemented yet");
+        }
     }
+
 }
