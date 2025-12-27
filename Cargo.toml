@@ -5,3 +5,8 @@ edition = "2024"
 
 [dependencies]
 clap = { version = "4.5.53", features = ["derive"] }
+reqwest = "0.12.28"
+semver = "1.0.27"
+serde = "1.0.228"
+sha2 = "0.10.9"
+tokio = "1.48.0"
